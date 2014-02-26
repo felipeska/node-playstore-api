@@ -18,7 +18,7 @@
     "swagger",
     "server"
   ],
-  "main": "index.js",
+  "main": "./Apps/playstore-api/main.js",
   "directories": {
     "lib": "./Common/node"
   },
