@@ -1,0 +1,15 @@
+<html>
+<head>
+	<body>
+		<p></p>
+		<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+		<script>
+			var packageID = 'com.whatsapp';
+			$.getJSON('http://playstore-api.herokuapp.com/playstore/apps/' + packageID)
+			.done(function(appDetails) {
+				$('p:last').html(JSON.stringify(appDetails));
+			});
+		</script>
+	</body>
+</head>
+<html>
