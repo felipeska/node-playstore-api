@@ -2,7 +2,8 @@ This is a node js server that can be used to fetch data from the Google Play Sto
 
 ### Consuming the Service - Examples
 
-You can optionally add a validator function, which is used to filter the swagger json and request operations:
+Getting app details about WhatsApp:
+http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp
 
 ```html
 <html>
