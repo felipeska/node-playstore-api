@@ -6,8 +6,8 @@ var playStore = (function() {
 	var  options = {
 		max: 500
 		, length: function (n) { return n * 2 }
-		, dispose: function (key, n) { n.close() }
-		, maxAge: 1000 * 60 * 60 
+		, dispose: function (key, n) { try { n.close() } catch(ex) { console.log(ex.message); } }
+		, maxAge: 1000 * 60 * 60 * 5
 	};
 	var appsCache = LRU(options);
 
