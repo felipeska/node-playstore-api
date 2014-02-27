@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+
+  <head>
+    <meta charset='utf-8' />
+    <meta http-equiv="X-UA-Compatible" content="chrome=1" />
+    <meta name="description" content="node-playstore-api : " />
+
+    <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
+
+    <title>node-playstore-api</title>
+  </head>
+
+  <body>
+
+    <!-- HEADER -->
+    <div id="header_wrap" class="outer">
+        <header class="inner">
+          <a id="forkme_banner" href="https://github.com/orcaman/node-playstore-api">View on GitHub</a>
+
+          <h1 id="project_title">node-playstore-api</h1>
+          <h2 id="project_tagline"></h2>
+
+            <section id="downloads">
+              <a class="zip_download_link" href="https://github.com/orcaman/node-playstore-api/zipball/master">Download this project as a .zip file</a>
+              <a class="tar_download_link" href="https://github.com/orcaman/node-playstore-api/tarball/master">Download this project as a tar.gz file</a>
+            </section>
+        </header>
+    </div>
+
+    <!-- MAIN CONTENT -->
+    <div id="main_content_wrap" class="outer">
+      <section id="main_content" class="inner">
+        <p>This is a node js server that can be used to fetch data from the Google Play Store. API Docs: <a href="http://playstore-api.herokuapp.com/docs/">http://playstore-api.herokuapp.com/docs/</a></p>
+
+<h3>
+<a name="consuming-the-service---examples" class="anchor" href="#consuming-the-service---examples"><span class="octicon octicon-link"></span></a>Consuming the Service - Examples</h3>
+
+<p>Getting app details about WhatsApp:
+<a href="http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp">http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp</a></p>
+
+<div class="highlight highlight-html"><pre><span class="nt">&lt;html&gt;</span>
+<span class="nt">&lt;head&gt;</span>
+  <span class="nt">&lt;body&gt;</span>
+    <span class="nt">&lt;p&gt;&lt;/p&gt;</span>
+    <span class="nt">&lt;script </span><span class="na">src=</span><span class="s">"https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"</span><span class="nt">&gt;&lt;/script&gt;</span>
+    <span class="nt">&lt;script&gt;</span>
+      <span class="kd">var</span> <span class="nx">packageID</span> <span class="o">=</span> <span class="s1">'com.whatsapp'</span><span class="p">;</span>
+      <span class="nx">$</span><span class="p">.</span><span class="nx">getJSON</span><span class="p">(</span><span class="s1">'http://playstore-api.herokuapp.com/playstore/apps/'</span> <span class="o">+</span> <span class="nx">packageID</span><span class="p">)</span>
+      <span class="p">.</span><span class="nx">done</span><span class="p">(</span><span class="kd">function</span><span class="p">(</span><span class="nx">appDetails</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">$</span><span class="p">(</span><span class="s1">'p:last'</span><span class="p">).</span><span class="nx">html</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">appDetails</span><span class="p">));</span>
+      <span class="p">});</span>
+    <span class="nt">&lt;/script&gt;</span>
+  <span class="nt">&lt;/body&gt;</span>
+<span class="nt">&lt;/head&gt;</span>
+<span class="nt">&lt;html&gt;</span>
+</pre></div>
+
+<p>Project dependancies:</p>
+
+<ul>
+<li>express: server framework for node</li>
+<li>swagger: framework for writing nice REST API's with documentation </li>
+<li>lru-cache: small library for using LRU cache (to cache the results from play store)</li>
+<li>cheerio: web scrapper for node js</li>
+</ul>
+      </section>
+    </div>
+
+    <!-- FOOTER  -->
+    <div id="footer_wrap" class="outer">
+      <footer class="inner">
+        <p class="copyright">node-playstore-api maintained by <a href="https://github.com/orcaman">orcaman</a></p>
+        <p>Published with <a href="http://pages.github.com">GitHub Pages</a></p>
+      </footer>
+    </div>
+
+              <script type="text/javascript">
+            var gaJsHost = (("https:" == document.location.protocol) ? "https://ssl." : "http://www.");
+            document.write(unescape("%3Cscript src='" + gaJsHost + "google-analytics.com/ga.js' type='text/javascript'%3E%3C/script%3E"));
+          </script>
+          <script type="text/javascript">
+            try {
+              var pageTracker = _gat._getTracker("UA-48459543-1");
+            pageTracker._trackPageview();
+            } catch(err) {}
+          </script>
+
+
+  </body>
+</html>
