@@ -4,7 +4,7 @@
   <head>
     <meta charset='utf-8' />
     <meta http-equiv="X-UA-Compatible" content="chrome=1" />
-    <meta name="description" content="node-playstore-api : " />
+    <meta name="description" content="node-playstore-api : node nodejs swagger express cheerio request scraping playstore api rest" />
 
     <link rel="stylesheet" type="text/css" media="screen" href="stylesheets/stylesheet.css">
 
@@ -19,7 +19,7 @@
           <a id="forkme_banner" href="https://github.com/orcaman/node-playstore-api">View on GitHub</a>
 
           <h1 id="project_title">node-playstore-api</h1>
-          <h2 id="project_tagline"></h2>
+          <h2 id="project_tagline">node nodejs swagger express cheerio request scraping playstore api rest</h2>
 
             <section id="downloads">
               <a class="zip_download_link" href="https://github.com/orcaman/node-playstore-api/zipball/master">Download this project as a .zip file</a>
@@ -56,14 +56,24 @@
 <span class="nt">&lt;html&gt;</span>
 </pre></div>
 
-<p>Project dependancies:</p>
+<h3>
+<a name="project-dependancies" class="anchor" href="#project-dependancies"><span class="octicon octicon-link"></span></a>Project dependancies</h3>
 
 <ul>
 <li>express: server framework for node</li>
 <li>swagger: framework for writing nice REST API's with documentation </li>
 <li>lru-cache: small library for using LRU cache (to cache the results from play store)</li>
 <li>cheerio: web scrapper for node js</li>
-</ul>
+</ul><h3>
+<a name="basic-overview" class="anchor" href="#basic-overview"><span class="octicon octicon-link"></span></a>Basic Overview</h3>
+
+<p>playStore.js is responsible for scraping the data from the play store. it uses cheerio (node.js module that allows you to query the HTML result jQuery style) to get data from the play store. when a call to the async function getAppDetails(packageID, callback) is made, if the result is cached (using lru-in-memory-cache), it returns it immediately. if there is a cache miss, it fetches the content from the play store (using request module, http for humans) and queries the html content using cheerio. read more about using cheerio and request to build a simple scraper. </p>
+
+<p>playStoreData.js is being used just a method of isolating playStore.js from the actual code written for exposing the data via a REST API. </p>
+
+<p>playStoreResources.js exports the API GET method, defining the route and behavior with swagger. </p>
+
+<p>The code is then deployed to heroku (see this page on how to do that - it's easy and free), and viola, a nice scalable play store API in minutes.</p>
       </section>
     </div>
 
