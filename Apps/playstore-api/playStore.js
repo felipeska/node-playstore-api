@@ -23,38 +23,46 @@ var playStore = (function() {
 						var description = $('.id-app-orig-desc').text();
 						var logo = $('.cover-image').attr('src');
 						var score = $('.score').text();
-						var thumbnailsContainer = ($('.thumbnails'))
-						var thumbnails = [];
-						if (thumbnailsContainer.length) {
-							$(thumbnailsContainer.children()).each(function(i, j) {
-								thumbnails.push($(j).attr('src'));
-							});	
-						}
-						var additionalInfo = [];
-						$('.meta-info').each(function(i, j) {
-							var meta = {};
-							var key = $(j).children('.content').attr('itemprop');
-							if (key) {
-								meta[key] = $(j).children('.content').text();
-								additionalInfo.push(meta);
-							}
-						});
+						
+						var thumbnails = extractThumbs($);
+						var additionalInfo = extractAddtitionalInfo($);
+						var developer = $('div[itemprop="author"]').children('a').children('span').text();
 
-						var result = { 
-							"packageID" : packageID, 
-							"appName" : title,
-							"logo" : logo,
-							"playStoreUrl" : requestUrl,
-							"thumbnails" : thumbnails,
-							"description" : description,
-							"score" : score,
-							"additionalInfo" : additionalInfo
-						};
-						appsCache.set(packageID, result);
-						callback(result);
+						// get permissions for app
+						request({
+							uri: 'https://play.google.com/store/xhr/getdoc',
+							method: "POST",
+							form: { "ids" : packageID,  "xhr":1 }
+						}, function(error, response, body) {
+							var perms = extractPerms(body, developer);
+							var result = { 
+								"packageID" : packageID, 
+								"appName" : title,
+								"developer" : developer,
+								"logo" : logo,
+								"playStoreUrl" : requestUrl,
+								"thumbnails" : thumbnails,
+								"description" : description,
+								"score" : score,
+								"additionalInfo" : additionalInfo,
+								"permissions" : perms
+							};
+							appsCache.set(packageID, result);
+							callback(result);
+						});
 					} catch (ex) {
 						callback('{"error" : "'+ex.message+'"}');
 					}
+				} else {
+					var errorText = 'statuscode ' + response.statusCode;
+					if (error) {
+						errorText += ', error: ' + error.toString();
+					}
+					if (response.statusCode == 404) {
+						errorText = "app not found";
+					}
+					
+					callback('{"error" : "'+errorText+'"}');
 				}
 			});	
 } else {
@@ -62,10 +70,62 @@ var playStore = (function() {
 }
 }
 
+function extractThumbs($) {
+	var result = [];
+	try {
+		var thumbnailsContainer = ($('.thumbnails'))
+		if (thumbnailsContainer.length) {
+			$(thumbnailsContainer.children()).each(function(i, j) {
+				result.push($(j).attr('src'));
+			});	
+		}
+	} catch (ex) {
+		console.log(ex.message);
+	}
+	return result;
+}
+
+function extractAddtitionalInfo($) {
+	var result = [];
+	try {
+		$('.meta-info').each(function(i, j) {
+			var meta = {};
+			var key = $(j).children('.content').attr('itemprop');
+			if (key) {
+				meta[key.trim()] = $(j).children('.content').text().trim();
+				result.push(meta);
+			}
+		});
+	} catch (ex) {
+		console.log(ex.message);
+	}
+	return result;
+}
+
+function extractPerms(body, developer) {
+	var result = '';
+	try {
+		var takeFrom = body.indexOf(developer);
+		var partial = body.substr(takeFrom, body.length - takeFrom);
+		takeFrom = partial.indexOf('[]');
+		partial = partial.substr(0, takeFrom);
+		var lines = partial.split('\n');
+		lines.splice(0, 1);
+		lines.splice(lines.length - 1, 1);
+		var newtext = lines.join('\n') + ']';
+		newtext = newtext.substr(1, newtext.length);
+		result = JSON.parse(newtext);
+	} catch (ex) {
+		console.log(ex.message);
+	}
+	return result;
+}
+
 return {
 	getAppDetails : getAppDetails
 }	
 })();
+
 
 module.exports = {
 	getAppDetails: function (packageID, callback) {

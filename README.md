@@ -1,4 +1,5 @@
-This is a node js server that can be used to fetch data from the Google Play Store. API Docs: http://playstore-api.herokuapp.com/docs/
+This is a node js server that can be used to fetch data (description, thumbnail images, required permissions) from the Google Play Store. API Docs: http://playstore-api.herokuapp.com/docs/
+
 
 ### Consuming the Service - Examples
 
