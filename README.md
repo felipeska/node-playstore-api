@@ -3,7 +3,7 @@ This is a node js server that can be used to fetch data (description, thumbnail 
 
 ### Consuming the Service - Examples
 
-Getting app details about WhatsApp:
+Getting app details about WhatsApp from the cloud service:
 http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp
 
 ```html
@@ -24,6 +24,24 @@ http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp
 <html>
 ```
 
+Or, to call the functions from your Node.js app:
+
+### Installation
+
+```bash
+npm install node-playstore-api 
+```
+
+### Usage
+
+```javascript
+var playStoreData = require('./playStoreData.js');
+var packageID = 'com.whatsapp';
+playStoreData.getAppDetails(packageID, function(rslt) {         
+  console.log(JSON.stringify(rslt));
+  // prints out the response JSON containing all the app's details
+});
+```
 
 ### Project dependancies
 
