@@ -39,7 +39,6 @@ var playStore = (function() {
 								"packageID" : packageID,
 								"appName" : title,
 								"developer" : developer,
-								"category" : "fooo"
 								"logo" : logo,
 								"playStoreUrl" : requestUrl,
 								"thumbnails" : thumbnails,
