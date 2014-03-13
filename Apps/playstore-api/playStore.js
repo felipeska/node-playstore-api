@@ -27,6 +27,7 @@ var playStore = (function() {
 						var thumbnails = extractThumbs($);
 						var additionalInfo = extractAddtitionalInfo($);
 						var developer = $('div[itemprop="author"]').children('a').children('span').text();
+						var category = 'foo';
 
 						// get permissions for app
 						request({
@@ -39,6 +40,7 @@ var playStore = (function() {
 								"packageID" : packageID,
 								"appName" : title,
 								"developer" : developer,
+								"category": category,
 								"logo" : logo,
 								"playStoreUrl" : requestUrl,
 								"thumbnails" : thumbnails,
