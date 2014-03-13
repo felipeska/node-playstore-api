@@ -27,7 +27,7 @@ var playStore = (function() {
 						var thumbnails = extractThumbs($);
 						var additionalInfo = extractAddtitionalInfo($);
 						var developer = $('div[itemprop="author"]').children('a').children('span').text();
-						var category = $('.document-subtitle-category').attr('href');
+						var category = $('.document-subtitle-category').attr('href').text();
 						console.log(category);
 
 						// get permissions for app
