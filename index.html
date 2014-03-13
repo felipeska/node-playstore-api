@@ -31,13 +31,15 @@
     <!-- MAIN CONTENT -->
     <div id="main_content_wrap" class="outer">
       <section id="main_content" class="inner">
-        <p>This is a node js server that can be used to fetch data from the Google Play Store. API Docs: <a href="http://playstore-api.herokuapp.com/docs/">http://playstore-api.herokuapp.com/docs/</a></p>
+        <p>This is a node js server that can be used to fetch data (description, thumbnail images, required permissions) from the Google Play Store. API Docs: <a href="http://playstore-api.herokuapp.com/docs/">http://playstore-api.herokuapp.com/docs/</a></p>
 
 <h3>
-<a name="consuming-the-service---examples" class="anchor" href="#consuming-the-service---examples"><span class="octicon octicon-link"></span></a>Consuming the Service - Examples</h3>
+<a name="usage-examples" class="anchor" href="#usage-examples"><span class="octicon octicon-link"></span></a>Usage Examples</h3>
 
-<p>Getting app details about WhatsApp:
-<a href="http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp">http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp</a></p>
+<h3>
+<a name="getting-app-details-about-whatsapp-from-the-heroku-cloud-service" class="anchor" href="#getting-app-details-about-whatsapp-from-the-heroku-cloud-service"><span class="octicon octicon-link"></span></a>Getting app details about WhatsApp from the heroku cloud service</h3>
+
+<p><a href="http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp">http://playstore-api.herokuapp.com/playstore/apps/com.whatsapp</a></p>
 
 <div class="highlight highlight-html"><pre><span class="nt">&lt;html&gt;</span>
 <span class="nt">&lt;head&gt;</span>
@@ -57,23 +59,60 @@
 </pre></div>
 
 <h3>
+<a name="starting-your-own-server" class="anchor" href="#starting-your-own-server"><span class="octicon octicon-link"></span></a>Starting your own server</h3>
+
+<div class="highlight highlight-bash"><pre>mkdir myapp <span class="o">&amp;&amp;</span> <span class="nb">cd </span>myapp
+npm init 
+npm install node-playstore-api --save
+nano test.js
+</pre></div>
+
+<p>test.js</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">server</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./playStoreData.js'</span><span class="p">);</span>
+<span class="c1">// you should see "Listening on 5000" on the console</span>
+<span class="c1">// try browsing to: http://localhost:5000/playstore/apps/com.whatsapp</span>
+</pre></div>
+
+<h3>
+<a name="publish--run-on-heroku" class="anchor" href="#publish--run-on-heroku"><span class="octicon octicon-link"></span></a>Publish / run on Heroku</h3>
+
+<p>fork the repo. change the package name to match your heroku app. change the Procfile to match your folder/file names.</p>
+
+<div class="highlight highlight-bash"><pre>foreman start
+</pre></div>
+
+<p>try browsing to: http://localhost:5000/playstore/apps/com.whatsapp</p>
+
+<h3>
+<a name="plug-in-to-your-own-nodejs-server-without-going-through-the-rest-api" class="anchor" href="#plug-in-to-your-own-nodejs-server-without-going-through-the-rest-api"><span class="octicon octicon-link"></span></a>Plug-in to your own Node.js server, without going through the REST API</h3>
+
+<p>grab playStore.js and playStoreData.js to do something like this:</p>
+
+<div class="highlight highlight-javascript"><pre><span class="kd">var</span> <span class="nx">playStoreData</span> <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">'./playStoreData.js'</span><span class="p">);</span>
+<span class="kd">var</span> <span class="nx">packageID</span> <span class="o">=</span> <span class="s1">'com.whatsapp'</span><span class="p">;</span>
+<span class="nx">playStoreData</span><span class="p">.</span><span class="nx">getAppDetails</span><span class="p">(</span><span class="nx">packageID</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">rslt</span><span class="p">)</span> <span class="p">{</span>         
+  <span class="nx">console</span><span class="p">.</span><span class="nx">log</span><span class="p">(</span><span class="nx">JSON</span><span class="p">.</span><span class="nx">stringify</span><span class="p">(</span><span class="nx">rslt</span><span class="p">));</span>
+  <span class="c1">// prints out the response JSON containing all the app's details</span>
+<span class="p">});</span>
+</pre></div>
+
+<h3>
 <a name="project-dependancies" class="anchor" href="#project-dependancies"><span class="octicon octicon-link"></span></a>Project dependancies</h3>
 
-<ul>
-<li>express: server framework for node</li>
-<li>swagger: framework for writing nice REST API's with documentation </li>
-<li>lru-cache: small library for using LRU cache (to cache the results from play store)</li>
-<li>cheerio: web scrapper for node js</li>
-</ul><h3>
+<p>connect, express, docco, lodash, cors, request, cheerio, lru-cache, logfmt
+(See NPM Page: <a href="https://www.npmjs.org/package/node-playstore-api">https://www.npmjs.org/package/node-playstore-api</a>)</p>
+
+<h3>
 <a name="basic-overview" class="anchor" href="#basic-overview"><span class="octicon octicon-link"></span></a>Basic Overview</h3>
 
-<p>playStore.js is responsible for scraping the data from the play store. it uses cheerio (node.js module that allows you to query the HTML result jQuery style) to get data from the play store. when a call to the async function getAppDetails(packageID, callback) is made, if the result is cached (using lru-in-memory-cache), it returns it immediately. if there is a cache miss, it fetches the content from the play store (using request module, http for humans) and queries the html content using cheerio. read more about using cheerio and request to build a simple scraper. </p>
+<p>playStore.js is responsible for scraping the data from the play store. it uses cheerio (node.js module that allows you to query the HTML result jQuery style) to parse from the play store after getting it (using request module). when a call to the async function getAppDetails(packageID, callback) is made, if the result is cached (using lru-in-memory-cache), it returns it immediately. if there is a cache miss, it fetches the content from the play store (using request module, http for humans) and queries the html content using cheerio. read more about using cheerio and request to build a simple scraper. </p>
 
 <p>playStoreData.js is being used just a method of isolating playStore.js from the actual code written for exposing the data via a REST API. </p>
 
 <p>playStoreResources.js exports the API GET method, defining the route and behavior with swagger. </p>
 
-<p>The code is then deployed to heroku (see this page on how to do that - it's easy and free), and viola, a nice scalable play store API in minutes.</p>
+<p>The code is then deployed to heroku (see this page on how to do that - it's easy and free: <a href="https://devcenter.heroku.com/articles/getting-started-with-nodejs">https://devcenter.heroku.com/articles/getting-started-with-nodejs</a>), and viola, a nice scalable play store API in minutes.</p>
       </section>
     </div>
 
