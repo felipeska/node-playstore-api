@@ -1,6 +1,6 @@
 {
   "name": "node-playstore-api",
-  "version": "0.0.1",
+  "version": "0.0.201",
   "author": {
     "name": "Or Hiltch",
     "email": "or.hiltch@gmail.com"
@@ -33,6 +33,7 @@
     "cors": "2.1.1",
     "request": "~2.34.0",
     "cheerio": "~0.13.1",
-    "lru-cache": "~2.5.0"
+    "lru-cache": "~2.5.0",
+    "logfmt": "~0.21.0"
   }
 }
