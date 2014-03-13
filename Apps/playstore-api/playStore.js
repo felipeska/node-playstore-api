@@ -23,7 +23,7 @@ var playStore = (function() {
 						var description = $('.id-app-orig-desc').text();
 						var logo = $('.cover-image').attr('src');
 						var score = $('.score').text();
-						
+
 						var thumbnails = extractThumbs($);
 						var additionalInfo = extractAddtitionalInfo($);
 						var developer = $('div[itemprop="author"]').children('a').children('span').text();
@@ -35,10 +35,11 @@ var playStore = (function() {
 							form: { "ids" : packageID,  "xhr":1 }
 						}, function(error, response, body) {
 							var perms = extractPerms(body, developer);
-							var result = { 
-								"packageID" : packageID, 
+							var result = {
+								"packageID" : packageID,
 								"appName" : title,
 								"developer" : developer,
+								"category" : "fooo"
 								"logo" : logo,
 								"playStoreUrl" : requestUrl,
 								"thumbnails" : thumbnails,
@@ -61,10 +62,10 @@ var playStore = (function() {
 					if (response.statusCode == 404) {
 						errorText = "app not found";
 					}
-					
+
 					callback('{"error" : "'+errorText+'"}');
 				}
-			});	
+			});
 } else {
 	callback(result)
 }
@@ -77,7 +78,7 @@ function extractThumbs($) {
 		if (thumbnailsContainer.length) {
 			$(thumbnailsContainer.children()).each(function(i, j) {
 				result.push($(j).attr('src'));
-			});	
+			});
 		}
 	} catch (ex) {
 		console.log(ex.message);
@@ -123,7 +124,7 @@ function extractPerms(body, developer) {
 
 return {
 	getAppDetails : getAppDetails
-}	
+}
 })();
 
 
